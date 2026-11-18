@@ -5,7 +5,12 @@ import { env } from './config/env.js';
 
 export const app = express();
 
-app.use(cors({ origin: env.corsOrigin }));
+app.use(
+  cors({
+    origin: env.corsOrigin,
+    exposedHeaders: ['X-Cache', 'X-Cache-TTL', 'X-Response-Time'],
+  })
+);
 app.use(express.json());
 app.use(router);
 

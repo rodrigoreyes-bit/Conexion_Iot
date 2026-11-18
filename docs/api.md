@@ -35,10 +35,30 @@ Lista de `deviceId` que han enviado datos.
 
 ## GET /stats/hourly?deviceId=esp32_1
 
-Promedio por hora. **Pendiente (Integrante 1).** Formato propuesto:
+Promedio por hora. **Cálculo pendiente (Integrante 1).** Formato propuesto:
 
 ```json
 [{ "hora": "2026-11-14T15:00:00.000Z", "temperatura": 24.1, "humedad": 58.3, "n": 360 }]
+```
+
+La respuesta se cachea en Redis (`cache:hourly:{deviceId}`) durante `CACHE_TTL_SECONDS` (60 por defecto). Headers de la respuesta:
+
+| Header | Valor |
+|---|---|
+| `X-Cache` | `HIT` si vino de Redis, `MISS` si se calculó en Mongo |
+| `X-Cache-TTL` | segundos que le quedan a la caché |
+| `X-Response-Time` | tiempo que tardó el servidor, p. ej. `0.85ms` |
+
+## GET /stats/summary?deviceId=esp32_1
+
+Contadores guardados en Redis.
+
+```json
+{
+  "totalLecturas": 1520,
+  "lecturasDispositivo": 1520,
+  "alertas": { "TEMPERATURA_ALTA": 12, "NIVEL_AGUA_BAJO": 40 }
+}
 ```
 
 ## GET /health
@@ -65,3 +85,6 @@ Se calculan en el backend y llegan en `reading.alerts`:
 | `history:{deviceId}` | list (máx. 10) | últimos 10 datos |
 | `devices` | set | dispositivos conocidos |
 | `sensor:new-reading` | canal pub/sub | avisa al WebSocket |
+| `stats:readings:total` | string (INCR) | total global de lecturas |
+| `stats:device:{deviceId}` | hash (HINCRBY) | `lecturas` y cantidad de cada tipo de alerta |
+| `cache:hourly:{deviceId}` | string (JSON) con TTL | caché del promedio por hora |
