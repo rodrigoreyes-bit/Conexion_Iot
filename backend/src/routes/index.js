@@ -12,3 +12,4 @@ router.get('/sensor-data/latest', sensorController.latest);
 router.get('/sensor-data/history', sensorController.history);
 router.get('/devices', sensorController.devices);
 router.get('/stats/hourly', sensorController.hourly);
+router.get('/stats/summary', sensorController.summary);

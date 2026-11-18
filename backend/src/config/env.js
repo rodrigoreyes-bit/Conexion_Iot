@@ -7,4 +7,5 @@ export const env = {
   corsOrigin: process.env.CORS_ORIGIN || '*',
   alertTempMax: Number(process.env.ALERT_TEMP_MAX) || 30,
   alertWaterMin: Number(process.env.ALERT_WATER_MIN ?? 1),
+  cacheTtlSeconds: Number(process.env.CACHE_TTL_SECONDS) || 60,
 };

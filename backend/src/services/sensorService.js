@@ -45,6 +45,7 @@ export const sensorService = {
     const saved = await readingRepository.create(data); // MongoDB: histórico permanente
     const reading = { ...saved.toObject(), alerts: evaluateAlerts(saved) };
     await cacheRepository.saveLatest(reading); // Redis: última lectura + últimos 10
+    await cacheRepository.incrementCounters(reading); // Redis: contadores de lecturas y alertas
     await cacheRepository.publish(reading); // Redis pub/sub -> WebSocket
     return reading;
   },
@@ -62,5 +63,13 @@ export const sensorService = {
   },
 
   devices: () => cacheRepository.getDevices(),
-  hourly: (deviceId) => readingRepository.hourlyAverage(deviceId),
+
+  // Promedio por hora: se calcula en Mongo y se cachea en Redis con TTL.
+  // Devuelve { data, fromCache, ttl } para que el controlador informe HIT/MISS.
+  hourly: (deviceId) =>
+    cacheRepository.getOrSet(`cache:hourly:${deviceId}`, env.cacheTtlSeconds, () =>
+      readingRepository.hourlyAverage(deviceId)
+    ),
+
+  summary: (deviceId) => cacheRepository.getCounters(deviceId),
 };
