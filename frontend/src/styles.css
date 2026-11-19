@@ -19,3 +19,165 @@ header { display: flex; align-items: center; justify-content: space-between; }
 .alert.danger { background: #fee2e2; color: #991b1b; }
 table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 12px; overflow: hidden; }
 th, td { padding: 8px 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+
+/* Indicadores visuales de los sensores */
+
+.sensor-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  min-height: 160px;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.sensor-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.sensor-illustration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sensor-illustration svg {
+  max-width: 100%;
+}
+
+.sensor-status {
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+@media (max-width: 600px) {
+  .sensor-card {
+    padding: 14px;
+    min-height: 130px;
+  }
+
+  .sensor-illustration svg {
+    width: 60px;
+    height: 90px;
+  }
+}
+
+/* Gráfico en tiempo real */
+
+.chart-section {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.chart-section h2 {
+  margin-bottom: 20px;
+}
+
+.chart-container {
+  background: white;
+  padding: 25px 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+
+/* Promedio de temperatura por hora */
+
+.hourly-section {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.hourly-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+}
+
+.hourly-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.hourly-label {
+  font-size: 14px;
+  color: #64748b;
+}
+
+.hourly-value {
+  font-size: 28px;
+  font-weight: 600;
+  color: #ef449a;
+}
+
+.hourly-count {
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* Termómetro del promedio por hora */
+
+.hourly-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.hourly-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hourly-thermometer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.hourly-thermometer svg {
+  width: 55px;
+  height: 90px;
+}
+
+/* Tendencias de los sensores */
+
+.sensor-trend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.trend-arrow {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.sensor-trend.up {
+  color: #ef4444;
+}
+
+.sensor-trend.down {
+  color: #3b82f6;
+}
+
+.sensor-trend.stable {
+  color: #64748b;
+}
