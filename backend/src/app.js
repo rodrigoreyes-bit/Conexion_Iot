@@ -9,7 +9,6 @@ app.use(cors({ origin: env.corsOrigin }));
 app.use(express.json());
 app.use(router);
 
-// JSON mal formado -> 400; cualquier otro error -> 500
 app.use((err, _req, res, _next) => {
   if (err.type === 'entity.parse.failed') {
     return res.status(400).json({ ok: false, error: 'JSON inválido' });

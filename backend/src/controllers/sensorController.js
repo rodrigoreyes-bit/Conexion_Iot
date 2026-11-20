@@ -2,7 +2,6 @@ import { parsePayload, sensorService } from '../services/sensorService.js';
 
 const DEFAULT_DEVICE = 'esp32_1';
 
-// Envuelve handlers async para mandar los errores al middleware de errores
 const wrap = (fn) => (req, res, next) => Promise.resolve(fn(req, res)).catch(next);
 
 export const sensorController = {
@@ -26,6 +25,7 @@ export const sensorController = {
   }),
 
   hourly: wrap(async (req, res) => {
-    res.json(await sensorService.hourly(req.query.deviceId || DEFAULT_DEVICE));
+    const hours = Math.min(Number(req.query.hours) || 24, 24 * 30);
+    res.json(await sensorService.hourly(req.query.deviceId || DEFAULT_DEVICE, hours));
   }),
 };

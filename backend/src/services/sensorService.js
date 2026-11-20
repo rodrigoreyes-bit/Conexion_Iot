@@ -4,7 +4,6 @@ import { env } from '../config/env.js';
 
 const toNumber = (v) => (typeof v === 'string' && v.trim() !== '' ? Number(v.replace(',', '.')) : v);
 
-// Valida y normaliza el JSON del ESP32 (acepta números o strings numéricos)
 export function parsePayload(body) {
   const errors = [];
   const deviceId = typeof body?.deviceId === 'string' ? body.deviceId.trim() : '';
@@ -42,10 +41,10 @@ export function evaluateAlerts(r) {
 
 export const sensorService = {
   async ingest(data) {
-    const saved = await readingRepository.create(data); // MongoDB: histórico permanente
+    const saved = await readingRepository.create(data); 
     const reading = { ...saved.toObject(), alerts: evaluateAlerts(saved) };
-    await cacheRepository.saveLatest(reading); // Redis: última lectura + últimos 10
-    await cacheRepository.publish(reading); // Redis pub/sub -> WebSocket
+    await cacheRepository.saveLatest(reading);
+    await cacheRepository.publish(reading); 
     return reading;
   },
 
@@ -62,5 +61,5 @@ export const sensorService = {
   },
 
   devices: () => cacheRepository.getDevices(),
-  hourly: (deviceId) => readingRepository.hourlyAverage(deviceId),
+  hourly: (deviceId, hours) => readingRepository.hourlyAverage(deviceId, hours),
 };

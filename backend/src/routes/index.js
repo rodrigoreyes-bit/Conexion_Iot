@@ -5,7 +5,6 @@ export const router = Router();
 
 router.get('/health', (_req, res) => res.json({ ok: true, time: new Date() }));
 
-// Endpoint OBLIGATORIO del enunciado
 router.post('/sensor-data', sensorController.create);
 
 router.get('/sensor-data/latest', sensorController.latest);

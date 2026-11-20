@@ -3,7 +3,6 @@ import { redis } from '../config/redis.js';
 const HISTORY_SIZE = 10;
 export const CHANNEL = 'sensor:new-reading';
 
-// Capa de acceso a Redis (clave-valor)
 export const cacheRepository = {
   async saveLatest(reading) {
     const json = JSON.stringify(reading);
@@ -30,5 +29,4 @@ export const cacheRepository = {
 
   publish: (reading) => redis.publish(CHANNEL, JSON.stringify(reading)),
 
-  // TODO (Integrante 2): caché con TTL para estadísticas, contadores, estado de alertas
 };

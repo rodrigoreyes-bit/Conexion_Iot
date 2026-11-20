@@ -33,12 +33,12 @@ Respuestas:
 
 Lista de `deviceId` que han enviado datos.
 
-## GET /stats/hourly?deviceId=esp32_1
+## GET /stats/hourly?deviceId=esp32_1&hours=24
 
-Promedio por hora. **Pendiente (Integrante 1).** Formato propuesto:
+Promedio por hora de las últimas `hours` horas (por defecto 24, máximo 720), calculado en MongoDB con un aggregation pipeline. Ordenado de la hora más antigua a la más nueva; `n` = lecturas en esa hora.
 
 ```json
-[{ "hora": "2026-11-14T15:00:00.000Z", "temperatura": 24.1, "humedad": 58.3, "n": 360 }]
+[{ "hora": "2026-11-14T15:00:00.000Z", "temperatura": 24.1, "humedad": 58.3, "nivelAguaPct": 75, "n": 360 }]
 ```
 
 ## GET /health

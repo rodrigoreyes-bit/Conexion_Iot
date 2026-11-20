@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 
-// Colección "readings": histórico completo de lecturas del ESP32
 const readingSchema = new mongoose.Schema(
   {
     deviceId: { type: String, required: true },
@@ -13,7 +12,6 @@ const readingSchema = new mongoose.Schema(
   { versionKey: false }
 );
 
-// Índice para consultas por dispositivo ordenadas por fecha
 readingSchema.index({ deviceId: 1, timestamp: -1 });
 
 export const Reading = mongoose.model('Reading', readingSchema);
