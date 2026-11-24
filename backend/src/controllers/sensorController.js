@@ -27,7 +27,8 @@ export const sensorController = {
 
   hourly: wrap(async (req, res) => {
     const start = process.hrtime.bigint();
-    const { data, fromCache, ttl } = await sensorService.hourly(req.query.deviceId || DEFAULT_DEVICE);
+    const hours = Math.min(Math.max(Math.trunc(Number(req.query.hours)) || 24, 1), 24 * 30);
+    const { data, fromCache, ttl } = await sensorService.hourly(req.query.deviceId || DEFAULT_DEVICE, hours);
     const ms = Number(process.hrtime.bigint() - start) / 1e6;
     // Headers para demostrar la caché: X-Cache HIT/MISS y cuánto tardó la respuesta
     res.set({

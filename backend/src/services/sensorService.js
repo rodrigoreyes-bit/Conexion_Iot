@@ -66,9 +66,9 @@ export const sensorService = {
 
   // Promedio por hora: se calcula en Mongo y se cachea en Redis con TTL.
   // Devuelve { data, fromCache, ttl } para que el controlador informe HIT/MISS.
-  hourly: (deviceId) =>
-    cacheRepository.getOrSet(`cache:hourly:${deviceId}`, env.cacheTtlSeconds, () =>
-      readingRepository.hourlyAverage(deviceId)
+  hourly: (deviceId, hours = 24) =>
+    cacheRepository.getOrSet(`cache:hourly:${deviceId}:${hours}`, env.cacheTtlSeconds, () =>
+      readingRepository.hourlyAverage(deviceId, hours)
     ),
 
   summary: (deviceId) => cacheRepository.getCounters(deviceId),
