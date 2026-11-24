@@ -11,7 +11,11 @@ export function setupSocket(httpServer) {
     console.log('[ws] cliente conectado', socket.id);
   });
 
-  redisSub.subscribe(CHANNEL);
+  const subscribe = () =>
+    redisSub.subscribe(CHANNEL).catch((err) => console.error('[redis-sub] error al suscribir:', err.message));
+  if (redisSub.status === 'ready') subscribe();
+  else redisSub.once('ready', subscribe);
+
   redisSub.on('message', (_channel, message) => {
     io.emit('new-reading', JSON.parse(message));
   });

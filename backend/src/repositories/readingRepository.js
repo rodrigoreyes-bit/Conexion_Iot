@@ -10,7 +10,28 @@ export const readingRepository = {
       .limit(limit)
       .lean(),
 
-  // TODO (Integrante 1): promedio por hora con aggregation pipeline
-  // ($match por deviceId -> $group por hora con $dateTrunc -> $avg)
-  hourlyAverage: async (_deviceId) => [],
+  hourlyAverage: (deviceId, hours = 24) =>
+    Reading.aggregate([
+      { $match: { deviceId, timestamp: { $gte: new Date(Date.now() - hours * 3600_000) } } },
+      {
+        $group: {
+          _id: { $dateTrunc: { date: '$timestamp', unit: 'hour' } },
+          temperatura: { $avg: '$temperatura' },
+          humedad: { $avg: '$humedad' },
+          nivelAguaPct: { $avg: '$nivelAguaPct' },
+          n: { $sum: 1 },
+        },
+      },
+      { $sort: { _id: 1 } },
+      {
+        $project: {
+          _id: 0,
+          hora: '$_id',
+          temperatura: { $round: ['$temperatura', 2] },
+          humedad: { $round: ['$humedad', 2] },
+          nivelAguaPct: { $round: ['$nivelAguaPct', 0] },
+          n: 1,
+        },
+      },
+    ]),
 };
