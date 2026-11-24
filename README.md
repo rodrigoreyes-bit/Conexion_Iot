@@ -69,3 +69,19 @@ Requisitos: Node 20+ y Docker.
 - Una rama por tarea: `feat/hourly-average`, `feat/realtime-chart`, `fix/...`
 - Commits cortos y descriptivos: `feat: agrega promedio por hora`.
 - El contrato de la API está en [docs/api.md](docs/api.md); si cambian un endpoint, actualícenlo ahí.
+
+## Arquitectura del sistema
+
+El proyecto cuenta con dos diagramas que describen su funcionamiento y organización interna:
+
+### Arquitectura del sistema
+
+Representa la comunicación entre el ESP32 o simulador, el backend, las bases de datos y el dashboard web.
+
+[Ver diagrama de arquitectura del sistema](docs/arquitectura-sistema.md)
+
+### Arquitectura del software
+
+Representa la organización interna del código, incluyendo las capas del backend y los componentes del frontend.
+
+[Ver diagrama de arquitectura del software](docs/arquitectura-software.md)
